@@ -41,3 +41,7 @@ sky:
     endpoint: ${sky.alioss.endpoint}
     bucketName: ${sky.alioss.bucketName}
     region: ${sky.alioss.region}
+  redis:
+    host: ${sky.redis.host}
+    port: ${sky.redis.port}
+    database: ${sky.redis.database}
