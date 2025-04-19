@@ -17,11 +17,13 @@ public interface DishService {
 
     void delete(Long[] ids);
 
-    DishVO getById(Long id);
+    Dish getById(Long id);
 
     void update(DishDTO dishDTO);
 
     void startOrStop(Integer status, Long id);
 
     List<Dish> getByCategoryId(Integer categoryId);
+
+    DishVO getDishAndFlavorsById(Long id);
 }

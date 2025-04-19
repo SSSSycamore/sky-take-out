@@ -64,4 +64,10 @@
         </set>
         where id = #{id}
     </update>
+    <select id="getDishesByIds" resultType="com.sky.entity.Dish">
+        select * from dish where id in
+       <foreach collection="dishIds" item="id" separator="," open="(" close=")">
+           #{id}
+       </foreach>
+    </select>
 </mapper>
