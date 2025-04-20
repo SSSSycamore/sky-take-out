@@ -37,6 +37,12 @@ sky:
     admin-ttl: 720000000
     # 设置前端传递过来的令牌名称
     admin-token-name: token
+    # 设置jwt签名加密时使用的秘钥
+    user-secret-key: itheima
+    # 设置jwt过期时间
+    user-ttl: 720000000
+    # 设置前端传递过来的令牌名称
+    user-token-name: authentication
   alioss:
     endpoint: ${sky.alioss.endpoint}
     bucketName: ${sky.alioss.bucketName}
@@ -45,3 +51,6 @@ sky:
     host: ${sky.redis.host}
     port: ${sky.redis.port}
     database: ${sky.redis.database}
+  wechat:
+    appid: ${sky.wechat.appid}
+    secret: ${sky.wechat.secret}
