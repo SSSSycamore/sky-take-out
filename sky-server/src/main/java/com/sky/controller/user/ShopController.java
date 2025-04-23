@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RequestMapping("/user/shop")
 @RestController(value = "userShopController")
 @Slf4j
@@ -22,7 +24,7 @@ public class ShopController {
     @ApiOperation(value = "查询商家状态")
     public Result<Integer> getStatus() {
         Integer status = (Integer) redisTemplate.opsForValue().get(KEY);
-        log.info("查询到的当前商家状态：{}", status == StatusConstant.ENABLE ? "营业中" : "已打烊");
+        log.info("查询到的当前商家状态：{}", Objects.equals(status, StatusConstant.ENABLE) ? "营业中" : "已打烊");
         return Result.success(status);
     }
 }
