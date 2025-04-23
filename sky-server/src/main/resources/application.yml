@@ -50,7 +50,6 @@ sky:
   redis:
     host: ${sky.redis.host}
     port: ${sky.redis.port}
-    database: ${sky.redis.database}
   wechat:
     appid: ${sky.wechat.appid}
     secret: ${sky.wechat.secret}
