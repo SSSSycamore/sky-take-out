@@ -25,4 +25,5 @@ public class MessageConstant {
     public static final String ORDER_STATUS_ERROR = "订单状态错误";
     public static final String ORDER_NOT_FOUND = "订单不存在";
     public static final String CODE_INVALID_OR_EXPIRED = "授权码无效或已过期";
+    public static final String ORDER_NOT_PAY_FOR_TIME_OUT = "订单超时未支付";
 }
