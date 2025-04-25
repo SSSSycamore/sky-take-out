@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 
 @RequestMapping("/user/order")
-@RestController
+@RestController("userOrderController")
 @Slf4j
 @Api(tags = "C端订单相关接口")
 public class OrderController {
@@ -71,7 +71,7 @@ public class OrderController {
     @ApiOperation("取消订单")
     public Result cancel(@PathVariable Long id) {
         log.info("取消订单：{}", id);
-        orderService.cancel(id);
+        orderService.userCancel(id);
         return Result.success();
     }
 

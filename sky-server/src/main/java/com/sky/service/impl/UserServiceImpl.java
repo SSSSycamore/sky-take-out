@@ -19,6 +19,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,6 +70,7 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
         user.setOpenid(openid);
+        user.setCreateTime(LocalDateTime.now());
         userMapper.insert(user);
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.USER_ID, user.getId());

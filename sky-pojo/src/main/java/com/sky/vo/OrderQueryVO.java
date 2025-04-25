@@ -87,4 +87,6 @@ public class OrderQueryVO {
     private Integer tablewareStatus;
 
     private List<OrderDetail> orderDetailList;
+
+    private String orderDishes;
 }
