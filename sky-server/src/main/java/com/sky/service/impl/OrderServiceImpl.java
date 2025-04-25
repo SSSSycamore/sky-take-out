@@ -18,6 +18,7 @@ import com.sky.vo.OrderQueryVO;
 import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
+import com.sky.websocket.WebSocketServer;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -50,6 +51,8 @@ public class OrderServiceImpl implements OrderService {
     private UserMapper userMapper;
     @Autowired
     private WeChatPayUtil weChatPayUtil;
+    @Autowired
+    private WebSocketServer webSocketServer;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -144,6 +147,11 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderMapper.update(orders);
+        JSONObject result = new JSONObject();
+        result.put("type",1);
+        result.put("orderId",ordersDB.getId());
+        result.put("content", outTradeNo + "订单已支付");
+        webSocketServer.sendToAllClient(result.toJSONString());
     }
 
     @Override
@@ -363,5 +371,18 @@ public class OrderServiceImpl implements OrderService {
         orders.setStatus(Orders.COMPLETED);
         orders.setDeliveryTime(LocalDateTime.now());
         orderMapper.update(orders);
+    }
+
+    @Override
+    public void reminder(Long id) {
+        Orders orders = orderMapper.getById(id);
+        if (orders == null){
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+        JSONObject json = new JSONObject();
+        json.put("type",2);
+        json.put("orderId",id);
+        json.put("content","订单号:"+id);
+        webSocketServer.sendToAllClient(json.toJSONString());
     }
 }
