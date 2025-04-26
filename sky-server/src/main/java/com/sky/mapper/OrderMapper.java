@@ -2,11 +2,14 @@ package com.sky.mapper;
 
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
+import com.sky.vo.TurnoverReportVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
@@ -39,4 +42,6 @@ public interface OrderMapper {
     List<Orders> getTimeOutOrders(Integer status, LocalDateTime localDateTime);
 
     void updateByIds(List<Long> ids, Integer status, String cancelReason, LocalDateTime cancelTime);
+
+    List<Map<String, Object>> turnoverStatistic(Integer status, LocalDate begin, LocalDate end);
 }

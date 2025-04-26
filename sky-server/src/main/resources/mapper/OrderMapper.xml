@@ -75,4 +75,13 @@
             #{id}
         </foreach>
     </update>
+    <select id="turnoverStatistic" resultType="java.util.Map">
+        select date(order_time) as date,
+               coalesce(sum(amount),0.0) as amount
+        from orders
+        where status = #{status}
+        and order_time between #{begin} and #{end}
+        group by date(order_time)
+        order by date(order_time)
+    </select>
 </mapper>
