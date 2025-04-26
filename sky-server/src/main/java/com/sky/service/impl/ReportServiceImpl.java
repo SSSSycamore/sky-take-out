@@ -5,6 +5,7 @@ import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
+import com.sky.vo.OrderReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,4 +79,41 @@ public class ReportServiceImpl implements ReportService {
         String newUserStr = String.join(",", newUserList.stream().map(Object::toString).toArray(String[]::new));
         return new UserReportVO(dateStr, totalUserStr, newUserStr);
     }
+
+    @Override
+    public OrderReportVO ordersStatistics(LocalDate begin, LocalDate end) {
+        List<LocalDate> dateList = new ArrayList<>();
+        dateList.add(begin);
+        while(!begin.isAfter(end)){
+            begin = begin.plusDays(1);
+            dateList.add(begin);
+        }
+        List<Integer> ordersCountList = new ArrayList<>();
+        List<Integer> validOrdersCountList = new ArrayList<>();
+        Double totalOrderCount = 0.0;
+        Double validOrderCount = 0.0;
+        for (LocalDate date : dateList) {
+            // 统计每一天的订单数量
+            Integer ordersCount = orderMapper.getCountByStatusAndTime(null, date);
+            // 统计每一天的有效订单数量
+            Integer validOrdersCount = orderMapper.getCountByStatusAndTime(Orders.COMPLETED, date);
+            ordersCountList.add(ordersCount);
+            validOrdersCountList.add(validOrdersCount);
+            totalOrderCount += ordersCount;
+            validOrderCount += validOrdersCount;
+        }
+        Double ordersCompletionRate = validOrderCount / totalOrderCount;
+        String dateStr = String.join(",",dateList.stream().map(Object::toString).toArray(String[]::new));
+        String ordersCountStr = String.join(",",ordersCountList.stream().map(Object::toString).toArray(String[]::new));
+        String validOrdersCountStr = String.join(",",validOrdersCountList.stream().map(Object::toString).toArray(String[]::new));
+        return OrderReportVO.builder()
+                .dateList(dateStr)
+                .totalOrderCount(totalOrderCount.intValue())
+                .validOrderCount(validOrderCount.intValue())
+                .orderCountList(ordersCountStr)
+                .validOrderCountList(validOrdersCountStr)
+                .orderCompletionRate(ordersCompletionRate)
+                .build();
+    }
+
 }

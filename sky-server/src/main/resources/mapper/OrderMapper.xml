@@ -84,4 +84,11 @@
         group by date(order_time)
         order by date(order_time)
     </select>
+    <select id="getCountByStatusAndTime" resultType="java.lang.Integer">
+        select count(id) from orders
+        <where>
+            <if test="status != null">status = #{status}</if>
+            <if test="date != null">and date(order_time) = date(#{date})</if>
+        </where>
+    </select>
 </mapper>

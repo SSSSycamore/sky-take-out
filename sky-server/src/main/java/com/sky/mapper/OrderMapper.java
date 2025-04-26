@@ -44,4 +44,6 @@ public interface OrderMapper {
     void updateByIds(List<Long> ids, Integer status, String cancelReason, LocalDateTime cancelTime);
 
     List<Map<String, Object>> turnoverStatistic(Integer status, LocalDate begin, LocalDate end);
+
+    Integer getCountByStatusAndTime(Integer status, LocalDate date);
 }
