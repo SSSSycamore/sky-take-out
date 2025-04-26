@@ -80,7 +80,7 @@
                coalesce(sum(amount),0.0) as amount
         from orders
         where status = #{status}
-        and order_time between #{begin} and #{end}
+        and date(order_time) between date(#{begin}) and date(#{end})
         group by date(order_time)
         order by date(order_time)
     </select>

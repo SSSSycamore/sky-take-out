@@ -1,14 +1,18 @@
 package com.sky.service.impl;
 
+import com.aliyun.oss.common.utils.StringUtils;
 import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
+import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.TurnoverReportVO;
+import com.sky.vo.UserReportVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +20,8 @@ import java.util.Map;
 public class ReportServiceImpl implements ReportService {
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private UserMapper userMapper;
     @Override
     public TurnoverReportVO turnoverStatistics(LocalDate begin, LocalDate end) {
         Integer status = Orders.COMPLETED;
@@ -44,5 +50,32 @@ public class ReportServiceImpl implements ReportService {
         //把amount列表转换成String数组，并用join方法拼接成一个字符串
         String amountStr = String.join(",", amount.stream().map(Object::toString).toArray(String[]::new));
         return new TurnoverReportVO(dateStr, amountStr);
+    }
+
+    @Override
+    public UserReportVO userStatistics(LocalDate begin, LocalDate end) {
+        List<LocalDate> dateList = new ArrayList<>();
+        dateList.add(begin);
+        while(!begin.isAfter(end)){
+            begin = begin.plusDays(1);
+            dateList.add(begin);
+        }
+        List<Integer> totalUserList = new ArrayList<>();
+        List<Integer> newUserList = new ArrayList<>();
+        for (LocalDate date : dateList) {
+            // 统计每一天的用户数量
+            Integer totalUser = userMapper.getTotalUser(date);
+            // 统计每一天的订单数量
+            Integer newUser = userMapper.getNewUser(date);
+            totalUserList.add(totalUser);
+            newUserList.add(newUser);
+        }
+        // 把date列表转换成String数组，并用join方法拼接成一个字符串
+        String dateStr = String.join(",", dateList.stream().map(Object::toString).toArray(String[]::new));
+        // 把totalUser列表转换成String数组，并用join方法拼接成一个字符串
+        String totalUserStr = String.join(",", totalUserList.stream().map(Object::toString).toArray(String[]::new));
+        // 把newUser列表转换成String数组，并用join方法拼接成一个字符串
+        String newUserStr = String.join(",", newUserList.stream().map(Object::toString).toArray(String[]::new));
+        return new UserReportVO(dateStr, totalUserStr, newUserStr);
     }
 }
