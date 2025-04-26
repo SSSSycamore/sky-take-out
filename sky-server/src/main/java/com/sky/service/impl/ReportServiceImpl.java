@@ -1,11 +1,13 @@
 package com.sky.service.impl;
 
 import com.aliyun.oss.common.utils.StringUtils;
+import com.sky.dto.GoodsSalesDTO;
 import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,4 +118,16 @@ public class ReportServiceImpl implements ReportService {
                 .build();
     }
 
+    @Override
+    public SalesTop10ReportVO top10(LocalDate begin, LocalDate end) {
+        List<GoodsSalesDTO> goodsSalesList = orderMapper.top10(begin,end);
+        List<String> nameList = goodsSalesList.stream().map(GoodsSalesDTO::getName).toList();
+        List<Integer> numberList= goodsSalesList.stream().map(GoodsSalesDTO::getNumber).toList();
+        String nameStr = String.join(",", nameList);
+        String numberStr = String.join(",", numberList.stream().map(Object::toString).toArray(String[]::new));
+        return SalesTop10ReportVO.builder()
+                .nameList(nameStr)
+                .numberList(numberStr)
+                .build();
+    }
 }

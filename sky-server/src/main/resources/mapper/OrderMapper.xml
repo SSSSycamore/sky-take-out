@@ -91,4 +91,15 @@
             <if test="date != null">and date(order_time) = date(#{date})</if>
         </where>
     </select>
+    <select id="top10" resultType="com.sky.dto.GoodsSalesDTO">
+        select sum(od.number) as number,
+               od.name as name
+        from order_detail as od,orders
+        where od.order_id = orders.id
+        and orders.status = 5
+        and date(orders.order_time) between date(#{begin}) and date(#{end})
+        group by name
+        order by number desc
+        limit 0,10
+    </select>
 </mapper>

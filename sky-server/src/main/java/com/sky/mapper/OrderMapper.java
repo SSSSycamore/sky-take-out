@@ -1,5 +1,6 @@
 package com.sky.mapper;
 
+import com.sky.dto.GoodsSalesDTO;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.entity.Orders;
 import com.sky.vo.TurnoverReportVO;
@@ -46,4 +47,6 @@ public interface OrderMapper {
     List<Map<String, Object>> turnoverStatistic(Integer status, LocalDate begin, LocalDate end);
 
     Integer getCountByStatusAndTime(Integer status, LocalDate date);
+
+    List<GoodsSalesDTO> top10(LocalDate begin, LocalDate end);
 }
