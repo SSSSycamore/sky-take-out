@@ -102,4 +102,11 @@
         order by number desc
         limit 0,10
     </select>
+    <select id="getSumByStatusAndTime" resultType="java.lang.Double">
+        select sum(amount) from orders
+        <where>
+            <if test="status != null">status = #{status}</if>
+            <if test="date != null">and date(order_time) = date(#{date})</if>
+        </where>
+    </select>
 </mapper>

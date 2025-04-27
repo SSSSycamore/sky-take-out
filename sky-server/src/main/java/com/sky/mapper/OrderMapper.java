@@ -49,4 +49,6 @@ public interface OrderMapper {
     Integer getCountByStatusAndTime(Integer status, LocalDate date);
 
     List<GoodsSalesDTO> top10(LocalDate begin, LocalDate end);
+
+    Double getSumByStatusAndTime(Integer completed, LocalDate now);
 }
