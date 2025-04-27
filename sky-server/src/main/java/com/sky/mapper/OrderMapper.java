@@ -50,5 +50,5 @@ public interface OrderMapper {
 
     List<GoodsSalesDTO> top10(LocalDate begin, LocalDate end);
 
-    Double getSumByStatusAndTime(Integer completed, LocalDate now);
+    Double getSumByStatusAndTime(Integer status, LocalDate date);
 }
