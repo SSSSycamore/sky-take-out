@@ -24,6 +24,5 @@ public interface UserMapper {
     @Select("select count(id) from user where date(create_time) <= date(#{date})")
     Integer getTotalUser(LocalDate date);
 
-    @Select("select count(id) from user where date(create_time) = date(#{date})")
-    Integer getNewUser(LocalDate date);
+    Integer getNewUser(LocalDate begin, LocalDate end);
 }

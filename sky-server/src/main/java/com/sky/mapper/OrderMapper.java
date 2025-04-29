@@ -46,9 +46,9 @@ public interface OrderMapper {
 
     List<Map<String, Object>> turnoverStatistic(Integer status, LocalDate begin, LocalDate end);
 
-    Integer getCountByStatusAndTime(Integer status, LocalDate date);
+    Integer getCountByStatusAndTime(Integer status, LocalDate begin, LocalDate end);
 
     List<GoodsSalesDTO> top10(LocalDate begin, LocalDate end);
 
-    Double getSumByStatusAndTime(Integer status, LocalDate date);
+    Double getSumByStatusAndTime(Integer status, LocalDate begin, LocalDate end);
 }

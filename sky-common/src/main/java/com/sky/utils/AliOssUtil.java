@@ -10,6 +10,8 @@ import com.sky.properties.AliOssProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
 import java.io.ByteArrayInputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -18,6 +20,8 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @Slf4j
+//@Component  如果在这里添加@Component注解，并且server模块正确依赖了common模块，
+// 那么启动类就可以正常扫描到这个AliOssUtil类，并可以直接注入使用。
 public class AliOssUtil {
 
     private AliOssProperties aliyunOSSProperties;

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -35,7 +37,7 @@ public class WorkSpaceController {
     @GetMapping("/businessData")
     @ApiOperation("工作台今日数据查询")
     public Result<BusinessDataVO> businessData(){
-        BusinessDataVO businessDataVO = workspaceService.getBusinessData();
+        BusinessDataVO businessDataVO = workspaceService.getBusinessData(LocalDate.now(),LocalDate.now());
         return Result.success(businessDataVO);
     }
 
@@ -46,7 +48,7 @@ public class WorkSpaceController {
     @GetMapping("/overviewOrders")
     @ApiOperation("查询订单管理数据")
     public Result<OrderOverViewVO> orderOverView(){
-        return Result.success(workspaceService.getOrderOverView());
+        return Result.success(workspaceService.getOrderOverView(LocalDate.now(),LocalDate.now()));
     }
 
     /**

@@ -88,7 +88,8 @@
         select count(id) from orders
         <where>
             <if test="status != null">status = #{status}</if>
-            <if test="date != null">and date(order_time) = date(#{date})</if>
+            <if test="begin != null">and date(order_time) &gt;= date(#{begin})</if>
+            <if test="end != null">and date(order_time) &lt;= date(#{end})</if>
         </where>
     </select>
     <select id="top10" resultType="com.sky.dto.GoodsSalesDTO">
@@ -106,7 +107,8 @@
         select sum(amount) from orders
         <where>
             <if test="status != null">status = #{status}</if>
-            <if test="date != null">and date(order_time) = date(#{date})</if>
+            <if test="begin != null">and date(order_time) &gt;= date(#{begin})</if>
+            <if test="end != null">and date(order_time) &lt;= date(#{end})</if>
         </where>
     </select>
 </mapper>

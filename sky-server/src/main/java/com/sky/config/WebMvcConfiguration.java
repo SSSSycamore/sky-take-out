@@ -26,7 +26,7 @@ import java.util.List;
  */
 @Configuration
 @Slf4j
-public class    WebMvcConfiguration extends WebMvcConfigurationSupport {
+public class WebMvcConfiguration extends WebMvcConfigurationSupport {
 
     @Autowired
     private JwtTokenAdminInterceptor jwtTokenAdminInterceptor;

@@ -40,7 +40,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
      * @param end
      * @return
      */
-    public BusinessDataVO getBusinessData() {
+    public BusinessDataVO getBusinessData(LocalDate begin, LocalDate end) {
         /**
          * 营业额：当日已完成订单的总金额
          * 有效订单：当日已完成订单的数量
@@ -49,14 +49,14 @@ public class WorkspaceServiceImpl implements WorkspaceService {
          * 新增用户：当日新增用户的数量
          */
         //查询总订单数
-        Integer totalOrderCount = orderMapper.getCountByStatusAndTime(null, LocalDate.now());
+        Integer totalOrderCount = orderMapper.getCountByStatusAndTime(null, begin, end);
 
         //营业额
-        Double turnover = orderMapper.getSumByStatusAndTime(Orders.COMPLETED, LocalDate.now());
+        Double turnover = orderMapper.getSumByStatusAndTime(Orders.COMPLETED, begin,end);
         turnover = turnover == null? 0.0 : turnover;
 
         //有效订单数
-        Integer validOrderCount = orderMapper.getCountByStatusAndTime(Orders.COMPLETED, LocalDate.now());
+        Integer validOrderCount = orderMapper.getCountByStatusAndTime(Orders.COMPLETED, begin, end);
 
         Double unitPrice = 0.0;
 
@@ -69,7 +69,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         }
 
         //新增用户数
-        Integer newUsers = userMapper.getNewUser(LocalDate.now());
+        Integer newUsers = userMapper.getNewUser(begin,end);
 
         return BusinessDataVO.builder()
                 .turnover(turnover)
@@ -86,21 +86,21 @@ public class WorkspaceServiceImpl implements WorkspaceService {
      *
      * @return
      */
-    public OrderOverViewVO getOrderOverView() {
+    public OrderOverViewVO getOrderOverView(LocalDate begin,LocalDate end) {
         //待接单
-        Integer waitingOrders = orderMapper.getCountByStatusAndTime(Orders.TO_BE_CONFIRMED, LocalDate.now());
+        Integer waitingOrders = orderMapper.getCountByStatusAndTime(Orders.TO_BE_CONFIRMED, begin, end);
 
         //待派送
-        Integer deliveredOrders = orderMapper.getCountByStatusAndTime(Orders.CONFIRMED, LocalDate.now());
+        Integer deliveredOrders = orderMapper.getCountByStatusAndTime(Orders.CONFIRMED,  begin, end);
 
         //已完成
-        Integer completedOrders = orderMapper.getCountByStatusAndTime(Orders.COMPLETED, LocalDate.now());
+        Integer completedOrders = orderMapper.getCountByStatusAndTime(Orders.COMPLETED, begin, end);
 
         //已取消
-        Integer cancelledOrders = orderMapper.getCountByStatusAndTime(Orders.CANCELLED, LocalDate.now());
+        Integer cancelledOrders = orderMapper.getCountByStatusAndTime(Orders.CANCELLED,  begin, end);
 
         //全部订单
-        Integer allOrders = orderMapper.getCountByStatusAndTime(null, LocalDate.now());
+        Integer allOrders = orderMapper.getCountByStatusAndTime(null,  begin, end);
 
         return OrderOverViewVO.builder()
                 .waitingOrders(waitingOrders)
